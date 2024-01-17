@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/srm.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="sect">
+        <div class="left">          
+            <div class="router">
+                <h1>Newborn</h1>
+                <ul>
+                    <li>
+                        <a href="/api/history">История</a>
+                    </li>
+                     <li>
+                        <a href="/api/atcategory">Категории</a>
+                    </li>
+                    <li>
+                        <a href="/api/category">Добавить заказ</a>
+                    </li>
+                    <li style="background-color:white; color: black; padding: 15px;">
+                        <a href="">Ассортимент</a>
+                    </li>
+                </ul>
+            <button  class="Exit">Выйти</button>
+            </div>
+        </div>
+        <div class="center">
+            <div class="top">
+                <h1>Категории Редактировать категорию</h1>
+            
+            </div>
+            <div class="content">
+                <!-- <div class="con"> -->
+                 
+                    <form action="" class="ui-form">
+                        <p>Название</p>
+                        <div class="form-row">
+                           
+                        <input type="text" id="email" required autocomplete="off" placeholder="{{this.categoryName}}">
+                       
+                          {{!-- {{#each category}} --}}
+                        
+                        {{!-- {{/each}}     --}}
+                        <label for="email"></label>
+                                            
+                        </div>
+                        <p>  <input type="file" name="filedata" /><br><br></p>
+                        <input type="submit" value="Send" />
+                        <p><input type="submit1" value="Сохранить измениния" class="save"></p>
+                        </form>
+                        <div id="imgContainer"></div>
+                <!-- </div>/ -->
+            </div>
+             <div class="position">
+            <h2>Позиции:</h2>
+             <form action="">
+                    <input type="text" placeholder="Позиция" class="input">
+                    <input type="text" value="{{this.categoryId}}" class="idCat"><br>
+                    <input type="text" placeholder="Цена позиции" class="price">
+                </form>
+            <div class="new">
+                <p>Добавить позицию</p>
+            </div>
+        </div>
+         <div class="table">
+    {{#each position}}
+    <form action="">
+        <div class="tr">
+            <a href="/api/order">{{this.position}} {{this.price}}</a>
+            <a method="DELETE" href="{{this._id}}" class="a1">Удалить</a>
+        </div>
+    </form>
+    {{/each}}
+</div>
+        </div>
+       
+    </div>
+  {{!--  <input type="text" id="email" required autocomplete="off"><label for="email"></label> Здесь на писано напитки эти напитки есть в mongodb  и пишу например напитки2 нажимаю на div  и в базе данных должно  --}}
+    <script>
+        let Exit = document.querySelector('.Exit')
+            Exit.addEventListener('click',function(){
+                window.location.href = "/"
+            })
+        {{!-- const input = document.getElementById('file');
+        const imgContainer = document.getElementById('imgContainer');
+
+        input.addEventListener('change',async (evenet)=>{
+            const selectedFile = evenet.target.files;
+
+            if(selectedFile.length>0){
+                const [imageFile] = selectedFile;
+                const isImageType = imageFile.type.startsWith('image');
+
+                if(isImageType){
+                    const fileReader = new FileReader();
+
+                    fileReader.onload=()=>{
+                        const srcData = fileReader.result;
+                        const img = new Image();
+                        img.src= srcData;
+
+                        imgContainer.innerHTML='';
+                        imgContainer.append(img)
+                    };
+
+                    fileReader.readAsDataURL(imageFile);
+                }
+            }
+        }); --}}
+ {{!-- // Получаем текущий путь URL
+    const currentPath = window.location.pathname;
+
+    // Извлекаем категорию из URL (последний сегмент пути)
+    const categoryValue = currentPath.split('/').pop();
+
+    // Устанавливаем значение в input
+    const emailInput = document.getElementById('email');
+    emailInput.value = decodeURIComponent(categoryValue);  --}}
+
+
+{{!-- let newDiv = document.createElement("div");
+            newDiv.className = 'tr';
+            newDiv.textContent =true;
+            let table = document.querySelector('.table');
+            table.appendChild(newDiv); --}}
+        let categ = document.querySelector('.new')
+        console.log(categ)
+
+
+ {{!-- let categ = document.querySelector('.new') --}}
+ let idCat = document.querySelector('.idCat')
+        console.log(categ)
+        categ.addEventListener('click',function(){
+        let input = document.querySelector('.input').value
+        let idCat = document.querySelector('.idCat').value
+        let price = document.querySelector('.price').value
+
+    const position={
+    'position':input,
+    'idCategory':idCat,
+    'price':price
+    }
+  
+    console.log(position)
+          async  function getpos(){
+          const a = await getPosition("/api/position/:id","POST",position)
+            console.log('promise',a)
+            if(a.message=='true'){
+                   window.location.href = "/api/position/"+idCat
+                         
+            }else{
+              alert('Ошибка')
+        
+                
+            }
+         
+
+    }
+
+
+  getpos()
+   async function getPosition(url,method,data) {
+    // отправляет запрос и получаем ответ
+   
+    try {
+      let body=JSON.stringify(data);
+
+      let headers={}
+      headers['Content-Type']="application/json";
+        const response = await fetch(url, {
+            method,
+            headers: { "Accept": "application/json", "Content-Type": "application/json" },
+            body
+          
+        });
+        return await response.json()
+    } catch (error) {
+    console.log('err')
+        
+    }
+}
+})
+{{!--  --}}
+ let delElements = document.querySelectorAll('.a1');
+delElements.forEach((del) => {
+    del.addEventListener('click', function (e) {
+        // Ваш код для обработки события клика
+        
+       
+       e.preventDefault()
+  
+    const position={
+    'position':e.target.getAttribute('href'),
+
+    }
+
+      async  function getdel(){
+          const a = await getDelite("/api/position/:id","DELETE",position)
+            console.log('promise',a)
+            if(a.message=='true'){
+                   window.location.href =  "/api/position/"+idCat.value
+                   
+             
+            }else{
+              alert('Ошибка')
+        
+                
+            }
+         
+
+    }
+  getdel()
+   } )
+
+   async function getDelite(url,method,data) { 
+            
+    // отправляет запрос и получаем ответ
+   
+    try {
+      let body=JSON.stringify(data);
+
+      let headers={}
+      headers['Content-Type']="application/json";
+        const response = await fetch(url, {
+            method,
+            headers: { "Accept": "application/json", "Content-Type": "application/json" },
+            body
+          
+        });
+        return await response.json()
+    } catch (error) {
+    console.log('err')
+        
+    }
+}
+ {{!-- // Создание и добавление нового div происходит после успешного ответа
+                     let newDiv = document.createElement("div");
+            newDiv.className = 'tr';
+            newDiv.textContent =true;
+            let table = document.querySelector('.table');
+            table.appendChild(newDiv); --}}
+})
+   
+
+    </script>
+</body>
+</html>

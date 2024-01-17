@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/atcategory.css">
+    <title>Document</title>
+</head>
+<body>
+     <div class="sect">
+        <div class="left">          
+            <div class="router">
+                <h1>Newborn</h1>
+                <ul>
+                    <li>
+                        <a href="/api/history">История</a>
+                    </li>
+                     <li>
+                        <a href="/api/atcategory" style="background-color:white ; color: black; padding: 15px;">Категории</a>
+                    </li>
+                    <li>
+                        <a href="/api/order">Добавить заказ</a>
+                    </li>
+                    <li>
+                        <a href="/api/category" >Ассортимент</a>
+                    </li>
+                </ul>
+            <button class="Exit">Выйти</button>
+            </div>
+        </div>
+        <div class="center">
+            <div class="verh">
+                <h1>Категории</h1>
+            </div>
+            {{!-- <table>
+                <tr>
+                    <td><a href="">Напитки</a></td>
+                    <td><a href="">Пирожки</a></td>
+
+                </tr>
+            </table> --}}
+            <div class="table">
+                <form action="">
+                {{#each category}}
+
+                <div class="tr"><a href="/api/order">{{this.category}}</a>
+                {{!-- <div class="delite">Удалить</div> --}}
+                </div>    
+                </form>         
+            {{/each}}
+            </div>
+        </div>
+    </div>
+    <script>
+        let Exit = document.querySelector('.Exit')
+            Exit.addEventListener('click',function(){
+                window.location.href = "/"
+            })
+         // Создание и добавление нового div происходит после успешного ответа
+                     {{!-- let newDiv = document.createElement("div");
+            newDiv.className = 'tr';
+            newDiv.textContent =true;
+            let table = document.querySelector('.table');
+            table.appendChild(newDiv);
+        let categ = document.querySelector('.new')
+        console.log(categ)
+        categ.addEventListener('click',function(){
+        let input = document.querySelector('.input').value
+    const category={
+    'category':input,
+    }
+  
+    console.log(category)
+          async  function getcat(){
+          const a = await getCategory("/api/category/","POST",category)
+            console.log('promise',a)
+            if(a.message=='true'){
+                   window.location.href = "/api/category"
+               
+            }else{
+              alert('Ошибка')
+        
+                
+            }
+         
+
+    }
+
+
+  getcat()
+   async function getCategory(url,method,data) {
+    // отправляет запрос и получаем ответ
+   
+    try {
+      let body=JSON.stringify(data);
+
+      let headers={}
+      headers['Content-Type']="application/json";
+        const response = await fetch(url, {
+            method,
+            headers: { "Accept": "application/json", "Content-Type": "application/json" },
+            body
+          
+        });
+        return await response.json()
+    } catch (error) {
+    console.log('err')
+        
+    }
+}
+
+})
+
+{{!--  --}}
+ let delElements = document.querySelectorAll('.a1');
+delElements.forEach((del) => {
+    del.addEventListener('click', function (e) {
+        // Ваш код для обработки события клика
+        
+       
+       e.preventDefault()
+  
+    const category={
+    'category':e.target.getAttribute('href'),
+    }
+  
+
+
+
+   
+      async  function getdel(){
+          const a = await getDelite("/api/category/","DELETE",category)
+            console.log('promise',a)
+            if(a.message=='true'){
+                   window.location.href = "/api/category"
+             
+            }else{
+              alert('Ошибка')
+        
+                
+            }
+         
+
+    }
+  getdel()
+   } )
+
+   async function getDelite(url,method,data) { 
+            
+    // отправляет запрос и получаем ответ
+   
+    try {
+      let body=JSON.stringify(data);
+
+      let headers={}
+      headers['Content-Type']="application/json";
+        const response = await fetch(url, {
+            method,
+            headers: { "Accept": "application/json", "Content-Type": "application/json" },
+            body
+          
+        });
+        return await response.json()
+    } catch (error) {
+    console.log('err')
+        
+    }
+}
+ {{!-- // Создание и добавление нового div происходит после успешного ответа
+                     let newDiv = document.createElement("div");
+            newDiv.className = 'tr';
+            newDiv.textContent =true;
+            let table = document.querySelector('.table');
+            table.appendChild(newDiv); --}}
+})
+    --}}     
+        
+    </script>
+</body>
+</html>

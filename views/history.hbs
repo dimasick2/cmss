@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/history.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="sect">
+         <div class="left">          
+            <div class="router">
+                <h1>Newborn</h1>
+                <ul>
+                    <li>
+                        <a href="/api/history" style="background-color:white ; color: black; padding: 15px;">История</a>
+                    </li>
+                     <li>
+                        <a href="/api/atcategory">Категории</a>
+                    </li>
+                    <li>
+                        <a href="/api/atcategory">Добавить заказ</a>
+                    </li>
+                    <li >
+                        <a href="/api/category">Ассортимент</a>
+                    </li>
+                </ul>
+            <button  class="Exit">Выйти</button>
+            </div>
+        </div>
+
+        <div class="center">
+             <div class="verh">
+                <h1>История заказов</h1>
+                <div class="infoG">
+                <table border="1" class="table1">
+                    <tr>
+                        <td>Номер</td>
+                    </tr>
+                    {{#each orderCount}}
+                    <tr>
+                        <td>{{this}}</td>
+                    </tr>
+                {{/each}}
+                </table>                              
+                   <table border="1" width="540px" class="table2">
+                    <tr>
+                       
+                        <td>Дата</td>
+                        <td>Сумма</td>
+                    </tr>              
+            {{#each orderDate}}
+            <tr>    
+                <td>{{this.orderDate}}</td>
+                <td>{{this.price}}</td>
+
+            </tr>
+    {{/each}}
+         </table>
+              </div>
+            </div>
+                        
+              
+               {{!-- <form action="">
+            {{#each order}}
+    <div class="tovar">
+    <p></p>
+    <p>{{this.quantity}}</p>
+    <p class="price">{{this.price}}</p>
+    <div class="add">
+        <p class="add-button">Посмотреть</p>
+    </div>
+</div>
+
+</form>
+{{/each}} --}}
+        </div>
+       
+    </div>
+    </div>
+   <script>
+    let Exit = document.querySelector('.Exit')
+            Exit.addEventListener('click',function(){
+                window.location.href = "/"
+            })
+   {{!-- document.addEventListener("DOMContentLoaded", function() {
+    const orderButton = document.querySelector('.order');
+    const tovarContainer = document.querySelector('.tovars');
+    const closeButton = document.querySelector('.close');
+    const addButtons = document.querySelectorAll('.add-button');
+
+    let totalAmount = 0;
+
+    addButtons.forEach(function(addButton) {
+        addButton.addEventListener('click', function() {
+            const tovar = this.closest('.tovar');
+            const productName = tovar.querySelector('.product-name').innerText;
+            const price = parseFloat(tovar.querySelector('.price').innerText.replace('$', ''));
+            const quantity = parseInt(tovar.querySelector('.input').value) || 0;
+            const amount = price * quantity;
+
+            totalAmount += amount;
+
+            const tovarInfo = document.createElement('p');
+            tovarInfo.innerText = `${productName} - ${quantity} шт. - ${amount}$`;
+
+            tovarContainer.appendChild(tovarInfo);
+        });
+    });
+
+    orderButton.addEventListener('click', function() {
+        const currentDate = new Date();
+        const dateText = `Дата: ${currentDate.toLocaleDateString()}`;
+        const timeText = `Время: ${currentDate.toLocaleTimeString()}`;
+        const amountText = `Сумма: ${totalAmount}$`;
+
+        const tovarInfo = document.createElement('div');
+        tovarInfo.innerHTML = `<p>1</p><p>${dateText}</p><p>${timeText}</p><p>${amountText}</p>`;
+
+        tovarContainer.appendChild(tovarInfo);
+
+        // Reset total amount for the next order
+        totalAmount = 0;
+    });
+
+    closeButton.addEventListener('click', function() {
+        // Clear the content of the tovars container when the close button is clicked
+        tovarContainer.innerHTML = '';
+    });
+}); --}}
+
+
+
+
+
+
+
+
+   </script>
+</body>
+</html>

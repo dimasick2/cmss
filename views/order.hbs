@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/order.css">
+    <title>Document</title>
+</head>
+<body>
+        <div class="sect">
+        <div class="left">          
+            <div class="router">
+                <h1>Newborn</h1>
+                <ul>
+                    <li>
+                        <a href="/api/history">История</a>
+                    </li>
+                     <li>
+                        <a href="/api/atcategory">Категории</a>
+                    </li>
+                    <li style="background-color:white ; color: black; padding: 15px; padding-left:35px">
+                        <a href="/api/order">Добавить заказ</a>
+                    </li>
+                    <li>
+                        <a href="/api/category">Ассортимент</a>
+                    </li>
+                </ul>
+            <button class="Exit">Выйти</button>
+            </div>
+        </div>
+      
+         <div class="busket">
+            <h2>Ваш заказ</h2>
+            <div class="infot">
+              <p>Название</p>
+            <p>Количество</p>
+            <p>Цена</p>
+              </div>
+            {{!-- <div class="tovars">
+                <!-- <p>Кроссовки</p> -->
+            </div> --}}
+            
+                <div class="over">
+                    {{!-- <p><a href="/api/history">Перейти к просмотру</a></p> --}}
+                    
+                     <button class="close">закрыть</button>
+                <button class="order">Заказать</button>
+                </div>
+               
+                <div class="total-cost">Total: $0.00</div>
+                    {{!-- <div class="Products"></div> --}}
+          
+            
+        </div>
+       
+         <div class="center">
+
+            <div class="verh">
+                <h1>Заказ><br> Добавить продукцию</h1>
+            </div>
+            <div class="info">
+                    <p>Название</p>
+                    <p>Стоимость</p>
+                    <p>Количество</p>
+                     <div class="corzina">
+                         <p>Добавлено <span class="corzina-count">0</span> товаров</p>
+                    </div>
+               </div>
+              
+        <form action="">
+              {{#each position}}
+    <div class="tovar">
+    <p class="product-name">{{this.position}}</p>
+    <p class="price">{{this.price}}</p>
+<form action="">
+        <input type="text" class="input">
+    </form>
+    <div class="add">
+        <p class="add-button">Добавить</p>
+    </div>
+</form>
+</div>
+    
+{{/each}}
+
+</div>
+</div>
+               
+               <form action="">
+  {{!-- <p id="orderTime"></p> --}}
+    <script>
+           let Exit = document.querySelector('.Exit')
+            Exit.addEventListener('click',function(){
+                window.location.href = "/"
+            })
+
+{{!--  --}}
+
+   let carts = document.querySelectorAll('.add');
+    let busket = document.querySelector('.busket');
+    let corzina = document.querySelector('.corzina');
+    let corzinaCount = document.querySelector('.corzina-count');
+    let closeButton = document.querySelector('.close');
+
+    // Добавление обработчика события на каждый div add
+    carts.forEach(cart => {
+        cart.addEventListener('click', function () {
+            let inputElement = this.parentElement.querySelector('.input');
+            let inputText = inputElement.value;
+
+            // Проверяем, введено ли что-то в input
+            if (inputText.trim() === '') {
+                alert('Введите количество');
+                return; // Прерываем выполнение функции
+            }
+
+            // Проверяем, является ли введенное значение числом
+            if (!isValidNumber(inputText)) {
+                alert('Ошибка. Введите число.');
+                return; // Прерываем выполнение функции
+            }
+
+            let productName = this.parentElement.querySelector('.product-name').textContent;
+            let productPrice = this.parentElement.querySelector('.price').textContent;
+            addToBusket(productName, inputText, productPrice);
+
+            // Добавляем класс 'open' к div busket
+            {{!-- busket.classList.add('open'); --}}
+
+            // Обновляем количество в div corzina
+            updateCorzinaCount();
+
+            // Очищаем input после добавления в корзину
+            inputElement.value = '';
+        });
+    });
+
+    // Обработчик события клика на div corzina
+    corzina.addEventListener('click', function () {
+        // Добавляем класс 'open' к div busket при клике на div corzina
+        busket.classList.add('open');
+    });
+
+    // Обработчик события клика на кнопку закрытия
+    closeButton.addEventListener('click', function () {
+        busket.classList.remove('open');
+    });
+     let totalCost = 0;
+// Функция для добавления товара в корзину
+function addToBusket(productName, quantity, price) {
+    let busketItem = document.createElement('div');
+    busketItem.classList.add('busket-item');
+
+    let span = document.createElement('span');
+    span.classList.add('spanOrder'); // Добавляем класс spanOrder
+
+    let productNameP = document.createElement('p');
+    productNameP.classList.add('orderName');
+    productNameP.textContent = productName;
+
+    let quantityP = document.createElement('p');
+    quantityP.classList.add('quantity');
+    quantityP.textContent = 'Количество: ' + quantity;
+
+    let priceP = document.createElement('p');
+    priceP.classList.add('price');
+    priceP.textContent = 'Цена: ' + price;
+
+    busketItem.appendChild(span);
+    span.appendChild(productNameP);
+    span.appendChild(quantityP);
+    span.appendChild(priceP);
+
+    // Добавляем новые элементы для увеличения и уменьшения количества
+    let plusButton = document.createElement('span');
+    plusButton.classList.add('plusButton');
+    plusButton.textContent = '+';
+
+    let minusButton = document.createElement('span');
+    minusButton.classList.add('minusButton');
+    minusButton.textContent = '-';
+
+    busketItem.appendChild(plusButton);
+    busketItem.appendChild(minusButton);
+
+    busket.appendChild(busketItem);
+
+    let productTotal = parseFloat(quantity) * parseFloat(price);
+    totalCost += productTotal;
+
+    // Обработчик события для удаления
+    span.addEventListener('click', function () {
+        busket.removeChild(busketItem);
+        totalCost -= productTotal;
+        updateTotalCost();
+        updateCorzinaCount();
+    });
+
+    // Обработчик события для увеличения количества при нажатии на плюс
+    plusButton.addEventListener('click', function () {
+        quantity = parseInt(quantity) + 1;
+        quantityP.textContent = 'Количество: ' + quantity;
+        productTotal = parseFloat(quantity) * parseFloat(price);
+        totalCost += parseFloat(price);
+        updateTotalCost();
+        updateCorzinaCount();
+    });
+
+    // Обработчик события для уменьшения количества при нажатии на минус
+    minusButton.addEventListener('click', function () {
+        if (quantity > 1) {
+            quantity = parseInt(quantity) - 1;
+            quantityP.textContent = 'Количество: ' + quantity;
+            productTotal = parseFloat(quantity) * parseFloat(price);
+            totalCost -= parseFloat(price);
+            updateTotalCost();
+            updateCorzinaCount();
+        } else {
+            // Если количество равно 1, удаляем товар
+            busket.removeChild(busketItem);
+            totalCost -= productTotal;
+            updateTotalCost();
+            updateCorzinaCount();
+        }
+    });
+
+    updateTotalCost();
+}
+
+
+
+    // Функция для обновления отображения общей стоимости
+    function updateTotalCost() {
+        let totalCostElement = document.querySelector('.total-cost');
+        totalCostElement.textContent = 'Всего: $' + totalCost.toFixed(2);
+    }
+
+    // Функция для обновления количества в corzina
+    function updateCorzinaCount() {
+        let cartItems = document.querySelectorAll('.busket-item');
+        corzinaCount.textContent = cartItems.length;
+    }
+
+    // Функция для проверки, является ли строка числом
+    function isValidNumber(value) {
+        return !isNaN(value);
+    }
+
+
+
+
+    // Функция для обновления отображения общей стоимости
+    function updateTotalCost() {
+        let totalCostElement = document.querySelector('.total-cost');
+        totalCostElement.textContent = 'Всего: $' + totalCost.toFixed(2);
+    }
+
+    // Функция для обновления количества в corzina
+    function updateCorzinaCount() {
+        let cartItems = document.querySelectorAll('.busket-item');
+        corzinaCount.textContent = cartItems.length;
+    }
+
+    // Функция для проверки, является ли строка числом
+    function isValidNumber(value) {
+        return !isNaN(value);
+    }
+{{!-- Отправление в базу данных --}}
+
+let posOrd = document.querySelector('.order')
+console.log(posOrd)
+posOrd.addEventListener('click',function(){
+
+let ordName = document.querySelectorAll('.orderName')
+let quan = document.querySelectorAll('.quantity')
+let price$ = document.querySelector('.total-cost')
+let masOrderName= []
+let quanOrder = []
+if(ordName.length>=1){
+    console.log(ordName[1])
+   for(let i of ordName){
+    
+    masOrderName.push(i.innerHTML)
+   }
+}
+if(quan.length>=1){
+ 
+   for(let i of quan){
+
+    quanOrder.push(i.innerHTML)
+   }
+}
+
+const order={
+'orderName':masOrderName,
+'quantity':quanOrder,
+'price':price$.innerHTML,
+}
+
+  async  function getOd(){
+  const a = await getOrder("/api/order/","POST",order)
+    console.log('promise',a)
+    if(a.message=='true'){
+           {{!-- window.location.href = "/api/category" --}}
+            console.log('Заказ добавлен')
+       
+    }else{
+      alert('Ошибка')
+ 
+    }
+}
+
+getOd()
+async function getOrder(url,method,data) {
+// отправляет запрос и получаем ответ
+
+try {
+let body=JSON.stringify(data);
+console.log('JSON',body)
+let headers={}
+headers['Content-Type']="application/json";
+const response = await fetch(url, {
+    method,
+    headers: { "Accept": "application/json", "Content-Type": "application/json" },
+    body
+  
+});
+return await response.json()
+} catch (error) {
+console.log('err')
+
+}
+}
+
+})
+    </script>
+</body>
+</html>
